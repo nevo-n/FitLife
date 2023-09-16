@@ -1,13 +1,14 @@
 const Post = require("../models/post");
 
-async function add_post(title, content) {
+async function add_post(title, content, username) {
 
-    const user = new User({
-        _id: username,
-        password
+    const post = new Post({
+        title: title,
+        content: content,
+        username: username
     });
 
-    await user.save()        
+    await post.save()        
 }
 
 module.exports = { add_post }

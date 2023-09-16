@@ -11,6 +11,8 @@ const Post = new mongoose.Schema({
         maxLength: 255
     },
     username: String,
+    likes: { type : Array , "default" : [] },
+    comments: { type : Array , "default" : [] }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Post", Post);
