@@ -55,9 +55,9 @@
                         </button>
                     </li>
                     <li class="list-group-item">
-                        <button type="button" class="btn btn-outline-primary" 
-                                onclick="window.location.href = '/../food/food.html'">
-                            <i class="bi bi-checks"> Build Custom Menu</i>
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="window.location.href = '/../food/food.html'">
+                            <i class="bi bi-ui-checks"> Build Custom Menu</i>
                         </button>
                     </li>
                     <li class="list-group-item">
@@ -81,20 +81,32 @@
                 <div class="row">
                     <div class="jumbotron jumbotron-fluid" id="food_space_jumbotron">
                         <div class="container">
-                          <h1 class="display-4">Food Space</h1>
-                          <p class="lead">Build your own menu with foods matching your nutritious preference</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="row">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search a desired food to see nutritional values" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                            <h1 class="display-4">Food Space</h1>
+                            <p class="lead">Build your own menu with foods matching your nutritious preference</p>
                         </div>
                     </div>
                 </div>
-        </div>
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <form id="nutritionForm">
+                            <input id="food" type="text" class="form-control"
+                                placeholder="Search a desired food to see nutritional values"
+                                aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit"
+                                    id="button-addon2">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                <div id="result"></div>
+            </div>
+
+
+            <script src="food.js"></script>
+
 </body>
 
 </html>
