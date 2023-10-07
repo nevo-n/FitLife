@@ -22,4 +22,9 @@ async function followers(email){
     return users
 }
 
+async function unfollow(email, unfollowEmail){
+    const unfollow = await UserService.unfollowEmail(email, unfollowEmail)
+    return unfollow;
+}
+
 module.exports = {feed, followings, followers}

@@ -58,4 +58,11 @@ router.get('/followers',  async (req, res) => {
     });
 });
 
+router.get('/unfollow/:email',  async (req, res) => {
+    const email = req.session.email
+    const unfollowEmail = req.email 
+    console.log(`unfollow for: ${email} the user ${unfollowEmail}`)
+    const unfollow = await userController.unfollow(email, unfollowEmail)
+    res.redirect("/me/followings")
+});
 module.exports = router;
