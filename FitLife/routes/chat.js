@@ -24,25 +24,7 @@ router.get('/:chatId/create', (req, res) => {
     });
 });
 
-router.get('/mock1', (req, res) => {
-    console.log("creating mock1")
-    chatController.generateMockData()
-    res.render('layouts/main', {
-        pageTitle: 'Chat messages',
-        pageBody: '../chat/chat', // The EJS view filename you want to render as the body
-        data: chatController.getMessages(1)
-    });
-});
 
-router.get('/mock2', (req, res) => {
-    console.log("creating mock1")
-    chatController.generateGroupAndChatMockData()
-    res.render('layouts/main', {
-        pageTitle: 'Chat messages',
-        pageBody: '../chat/chat', // The EJS view filename you want to render as the body
-        data: chatController.getMessages(1)
-    });
-});
 
 
 
