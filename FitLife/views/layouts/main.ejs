@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-md-block bg-dark sidebar full-height">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="navbar-brand text-secondary font-weight-bold" href="/me/feed">FitLife</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-secondary" href="/me/feed">Feed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed text-secondary" data-toggle="collapse" href="#submenu">
+                            Groups
+                        </a>
+                        <div class="collapse" id="submenu">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link ml-3 text-secondary" href="#">Group 1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link ml-3 text-secondary" href="#">Group 2</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link ml-3 text-secondary" href="#">Group 3</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link ml-3 text-secondary" href="#">Group 4</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/me/search">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/login/logout">logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 p-3">
+            <%- include(pageBody, { data: data }) %>
+        </main>
+    </div>
+</div>
+
+<!-- Include jQuery and Bootstrap JS for collapse functionality -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

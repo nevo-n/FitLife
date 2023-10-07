@@ -1,0 +1,60 @@
+<!-- feed.ejs -->
+
+<!-- Include the profile at the top -->
+<%- include('profile', {user: data.user}) %> 
+<% data.followingPosts.forEach((post) => { %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h3><%= post.title %></h3>
+    <small class="text-muted"> By <%= post.author.email %> </small>
+  </div>
+  <div class="card-body">
+    <p><%= post.content %></p>
+  </div>
+  <div class="card-footer">
+    <div class="row ml-2 mr-2 justify-content-between">
+      <div class="align-items-start">
+        <small class="text-muted">
+            <i class="fa fa-heart"></i> <%= post.likes.length %> Likes
+          </small>
+      </div>
+      <div class="m-2 align-items-end">
+        <a href="#" class="btn btn-primary">
+            <i class="fas fa-thumbs-up"></i>
+          </a>
+      </div>
+    </div>
+    <!-- Comments section -->
+    <div class="comments">
+      <% if(post.comments.length == 0) { %>
+      <div class="mt-1">
+        <span class="text-muted">Be the first to comment</span>
+      </div>
+      <% } %>
+
+      <div class="mt-2">
+        <form action="/submit-comment" method="POST">
+          <div class="form-group">
+            
+            <textarea
+              class="form-control"
+              id="commentContent"
+              name="content"
+              rows="2"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+
+      <% post.comments.forEach((comment) => { %>
+      <div class="comment mb-3">
+        <strong><%= comment.email %></strong>:
+        <span><%= comment.content %></span>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</div>
+<% }); %>
