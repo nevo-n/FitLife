@@ -30,8 +30,8 @@ router.get('/followings',  async (req, res) => {
     const followings = await userController.followings(email)
     const data = {
         users: followings,
-        followers: true,
-        following: false
+        followers: false,
+        following: true
     };
     console.log(data)
     res.render('layouts/main', {
@@ -60,7 +60,7 @@ router.get('/followers',  async (req, res) => {
 
 router.get('/unfollow/:email',  async (req, res) => {
     const email = req.session.email
-    const unfollowEmail = req.email 
+    const unfollowEmail = req.params.email 
     console.log(`unfollow for: ${email} the user ${unfollowEmail}`)
     const unfollow = await userController.unfollow(email, unfollowEmail)
     res.redirect("/me/followings")

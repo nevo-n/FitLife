@@ -1,4 +1,3 @@
-const user = require("../models/user");
 const User = require("../models/user");
 
 async function createUser(fname, lname, email, password, date_of_birth, type) {
@@ -70,5 +69,16 @@ async function listFollowers(email){
     return followersUsers;
 }
 
+async function unfollowEmail(email, unfollowEmail){
+    const user = await User.findOne({ email: email });
+    const unfollowUser = await User.findOne({ email: unfollowEmail });
+    const index = user.following.indexOf(unfollowUser._id);
+    if (index > -1) {
+        user.following.splice(index, 1);
+        await user.save();
+        return true; // Successfully unfollowed
+    }
+    return false
+}
 
-module.exports = { createUser, fetchUser, editUser, deleteUser, listFollowing, listFollowers}
+module.exports = { createUser, fetchUser, editUser, deleteUser, listFollowing, listFollowers, unfollowEmail}

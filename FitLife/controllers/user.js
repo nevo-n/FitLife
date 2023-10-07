@@ -24,7 +24,7 @@ async function followers(email){
 
 async function unfollow(email, unfollowEmail){
     const unfollow = await UserService.unfollowEmail(email, unfollowEmail)
-    return unfollow;
+    return unfollow
 }
 
-module.exports = {feed, followings, followers}
+module.exports = {feed, followings, followers, unfollow}

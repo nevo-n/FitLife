@@ -26,7 +26,7 @@ function loginForm(req, res) {
 }
 
 function registerForm(req, res) { 
-  res.render("login/register", {}) 
+  res.render("login/register", {query: req.query}) 
 }
 
 function logout(req, res) {
@@ -51,10 +51,10 @@ async function register(req, res) {
   
   const user = await UserService.fetchUser(email)
   if (user != null){
-    return res.redirect('/login/login?error=2')
+    return res.redirect('/login/register?error=2')
   }
 
-  await LoginService.registerUser(fname, lname, email, password, date_of_birth, type, 'active')
+  await LoginService.registerUser(fname, lname, email, password, date_of_birth, type, 'Active')
   
   req.session.email = email
   return res.redirect('/me/feed')

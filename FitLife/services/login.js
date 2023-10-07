@@ -15,7 +15,11 @@ async function registerUser(fname, lname, email, password, date_of_birth, type) 
         password: password,
         date_of_birth: date_of_birth,
         type: type,
-        status: 'Active'
+        status: 'Active',
+        followers: [],
+        following: [],
+        posts: [],
+        groups: []
     });
       
     await user.save();  
