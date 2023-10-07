@@ -1,18 +1,25 @@
-const User = require("../models/User");
+const User = require("../models/user");
 
-async function login(username, password) {
-    const user = await User.findOne({ username, password });
+async function loginUser(email, password) {
+    const user = await User.findOne({ email, password });
     return user != null
 }
 
-async function register(username, password) {
+async function registerUser(fname, lname, email, password, date_of_birth, type) {
+    console.log(`loginUser email: ${email} password: ${password}`)
 
     const user = new User({
-        username,
-        password
+        fname: fname,
+        lname: lname,
+        email: email,
+        password: password,
+        date_of_birth: date_of_birth,
+        type: type,
+        status: 'Active'
     });
-
-    await user.save()        
+      
+    await user.save();  
 }
 
-module.exports = { login, register }
+
+module.exports = { loginUser, registerUser }
