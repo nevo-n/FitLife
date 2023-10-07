@@ -7,9 +7,40 @@ router.get('/', (req, res) => {
     res.redirect('/me/feed')
 });
 
-router.get('/settings', (req, res) => {
-    console.log("User Settings Page")
-    res.send('User Settings Page');
+router.get('/settings', async (req, res) => {
+    const email = req.session.email
+    let message = null
+    if(typeof req.query.message !== 'undefined'){
+        message = req.query.message
+    }
+    
+    const user = await userController.getUser(email)
+    const data = {
+        user: user,
+        message: message
+    }
+    res.render('layouts/main', {
+        pageTitle: 'Settings',
+        pageBody: '../user/settings', 
+        data: data,
+    });
+});
+
+router.post('/settings', async (req, res) => {
+    const email = req.session.email
+    let new_user = await userController.getUser(email)
+    new_user.fname = req.body.fname
+    new_user.lname = req.body.lname
+    new_user.password = req.body.password
+    new_user.date_of_birth = req.body.date_of_birth
+    new_user.type = req.body.type
+    const user = await userController.updateUser(new_user)
+    if(user){
+        res.redirect('/me/settings?message=1')
+    }
+    else {
+        res.redirect('/me/settings?message=2')
+    }
 });
 
 router.get('/feed',  async (req, res) => {
@@ -19,7 +50,7 @@ router.get('/feed',  async (req, res) => {
     console.log(data)
     res.render('layouts/main', {
         pageTitle: 'Feed',
-        pageBody: '../user/feed', // The EJS view filename you want to render as the body
+        pageBody: '../user/feed',
         data: data
     });
 });
@@ -36,7 +67,7 @@ router.get('/followings',  async (req, res) => {
     console.log(data)
     res.render('layouts/main', {
         pageTitle: 'following',
-        pageBody: '../user/friends', // The EJS view filename you want to render as the body
+        pageBody: '../user/friends', 
         data: data
     });
 });
@@ -53,7 +84,7 @@ router.get('/followers',  async (req, res) => {
     console.log(data)
     res.render('layouts/main', {
         pageTitle: 'Feed',
-        pageBody: '../user/friends', // The EJS view filename you want to render as the body
+        pageBody: '../user/friends', 
         data: data
     });
 });

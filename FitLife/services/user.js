@@ -29,21 +29,17 @@ async function fetchUser(email) {
     return user
 }
 
-async function editUser(fname, lname, email, password, date_of_birth, type) {
-    console.log(`editUser email: ${email} password: ${password}`)
+async function updateUser(user) {
     const updatedFields = {
-        fname: fname, 
-        lname: lname, 
-        password: password, 
-        date_of_birth: date_of_birth, 
-        type: type
+        fname: user.fname, 
+        lname: user.lname, 
+        password: user.password, 
+        date_of_birth: user.date_of_birth, 
+        type: user.type
     };
-    // Find user and update the password
-    const user = await User.findOneAndUpdate({ email: email }, updatedFields, { new: true });
-    if (!user) {
-        return false;
-    }
-    return user;
+
+    const new_user = await User.findOneAndUpdate({ email: user.email }, updatedFields, { new: true });
+    return new_user;
 }
 
 async function deleteUser(email) {
@@ -81,4 +77,4 @@ async function unfollowEmail(email, unfollowEmail){
     return false
 }
 
-module.exports = { createUser, fetchUser, editUser, deleteUser, listFollowing, listFollowers, unfollowEmail}
+module.exports = { createUser, fetchUser, updateUser, deleteUser, listFollowing, listFollowers, unfollowEmail}
