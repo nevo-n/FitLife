@@ -28,6 +28,8 @@ const userRoutes = require('./routes/user');
 const groupRoutes = require('./routes/group');
 const chatRoutes = require('./routes/chat');
 const loginRoutes = require('./routes/login')
+const searchRoutes = require('./routes/search')
+
 
 const loginController = require("./controllers/login")
 
@@ -35,7 +37,7 @@ const loginController = require("./controllers/login")
 app.use('/me', loginController.isLoggedIn , userRoutes);
 app.use('/group',loginController.isLoggedIn,  groupRoutes);
 app.use('/chat',loginController.isLoggedIn, chatRoutes);
-
+app.use('/search', loginController.isLoggedIn, searchRoutes)
 app.use('/login', loginRoutes);
 
 app.listen(8800)

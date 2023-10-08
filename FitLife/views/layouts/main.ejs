@@ -14,7 +14,7 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-md-block bg-dark sidebar full-height">
+        <nav class="col-md-2 d-md-block bg-dark sidebar full-height fixed-sidebar">
             <div class="position-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -48,7 +48,7 @@
                         <a class="nav-link text-secondary" href="/me/settings">Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary" href="/me/search">Search</a>
+                        <a class="nav-link text-secondary" href="/search/search">Search</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-secondary" href="/login/logout">logout</a>
@@ -57,7 +57,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 p-3">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 p-3 main-content">
             <%- include(pageBody, { data: data }) %>
         </main>
     </div>

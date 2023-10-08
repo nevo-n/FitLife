@@ -72,9 +72,28 @@ async function unfollowEmail(email, unfollowEmail){
     if (index > -1) {
         user.following.splice(index, 1);
         await user.save();
-        return true; // Successfully unfollowed
+        return true; 
     }
     return false
 }
 
-module.exports = { createUser, fetchUser, updateUser, deleteUser, listFollowing, listFollowers, unfollowEmail}
+async function followEmail(email, followEmail){
+    const user = await User.findOne({ email: email })
+    const follow = await User.findOne({email: followEmail})
+    user.following.push(follow._id)
+    user.save()
+    return true
+}
+
+async function searchUser(text){
+    const regex = new RegExp(text, 'i')
+    const users = await User.find({$or: [
+        {email: regex},
+        {fname: regex},
+        {lname: regex},
+        {type: regex}
+    ]});
+    return users
+}
+
+module.exports = { createUser, fetchUser, updateUser, deleteUser, listFollowing, listFollowers, unfollowEmail, followEmail, searchUser}

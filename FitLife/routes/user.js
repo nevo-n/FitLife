@@ -57,14 +57,17 @@ router.get('/feed',  async (req, res) => {
 
 router.get('/followings',  async (req, res) => {
     const email = req.session.email
-    console.log(`list followings for email: ${email}`)
+    let message = null
+    if(typeof req.query.message !== 'undefined'){
+        message = req.query.message
+    }
     const followings = await userController.followings(email)
     const data = {
         users: followings,
         followers: false,
-        following: true
+        following: true,
+        message: message
     };
-    console.log(data)
     res.render('layouts/main', {
         pageTitle: 'following',
         pageBody: '../user/friends', 
@@ -92,8 +95,15 @@ router.get('/followers',  async (req, res) => {
 router.get('/unfollow/:email',  async (req, res) => {
     const email = req.session.email
     const unfollowEmail = req.params.email 
-    console.log(`unfollow for: ${email} the user ${unfollowEmail}`)
     const unfollow = await userController.unfollow(email, unfollowEmail)
-    res.redirect("/me/followings")
+    res.redirect("/me/followings?message=removed")
 });
+
+router.get('/follow/:email',  async (req, res) => {
+    const email = req.session.email
+    const followEmail = req.params.email 
+    const follow = await userController.follow(email, followEmail)
+    res.redirect("/me/followings?message=added")
+});
+
 module.exports = router;

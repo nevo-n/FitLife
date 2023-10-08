@@ -1,13 +1,5 @@
-const User = require("../models/user")
-const Group = require("../models/group")
-const Post = require("../models/post")
-
 const LoginService = require("../services/login")
 const UserService = require("../services/user")
-
-
-
-
 
 function isLoggedIn(req, res, next) {
   if (req.session.email != null)

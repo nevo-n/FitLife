@@ -1,4 +1,15 @@
 
+<% if(data.message == "added"){%>
+    <div class="alert alert-success">
+        <span>New follow has been added!</span>
+    </div>
+<%}
+
+else if(data.message == "removed") {%>
+    <div class="alert alert-danger">
+        <span>Follow has been removed!</span>
+    </div>
+<%}%>
 
 <% if(data.users.length == 0) { %>
     <div class="jumbotron">

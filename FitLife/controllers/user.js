@@ -27,6 +27,11 @@ async function unfollow(email, unfollowEmail){
     return unfollow
 }
 
+async function follow(email, followEmail){
+    const follow = await UserService.followEmail(email, followEmail)
+    return follow
+}
+
 async function getUser(email){
     const user = await UserService.fetchUser(email)
     return user
@@ -37,4 +42,4 @@ async function updateUser(user){
     return new_user
 }
 
-module.exports = {feed, followings, followers, unfollow, getUser, updateUser}
+module.exports = {feed, followings, followers, unfollow, follow, getUser, updateUser}
