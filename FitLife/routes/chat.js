@@ -19,7 +19,7 @@ router.get('/:chatId/create', (req, res) => {
     chatController.createMockChat(chatId)
     res.render('layouts/main', {
         pageTitle: 'Chat messages',
-        pageBody: '../chat/chat', // The EJS view filename you want to render as the body
+        pageBody: '../chat/chat', 
         data: chatController.getMessages(chatId)
     });
 });

@@ -1,15 +1,11 @@
 const User = require("../models/user");
 
-async function createUser(fname, lname, email, password, date_of_birth, type) {
-    console.log(`createUser email: ${email} password: ${password}`)
-    
-    // Check if a user with the given email already exists
+async function createUser(fname, lname, email, password, date_of_birth, type) {    
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
         return false;
     }
-
-    // Create new user
+    
     const user = new User({
         fname: fname,
         lname: lname,
@@ -43,7 +39,6 @@ async function updateUser(user) {
 }
 
 async function deleteUser(email) {
-    console.log(`deleteUser email: ${email}`)
     const updatedUser = await User.findOneAndUpdate({ email: email }, { status: 'Disabled' }, { new: true });
     if (!updatedUser) {
         return false;
@@ -52,7 +47,6 @@ async function deleteUser(email) {
 }
 
 async function listFollowing(email){
-    console.log(`listFollwings email: ${email}`)
     const user = await User.findOne({ email: email });
     const followingUsers = await User.find({ _id: { $in: user.following } });
     return followingUsers;
@@ -66,22 +60,27 @@ async function listFollowers(email){
 }
 
 async function unfollowEmail(email, unfollowEmail){
-    const user = await User.findOne({ email: email });
-    const unfollowUser = await User.findOne({ email: unfollowEmail });
-    const index = user.following.indexOf(unfollowUser._id);
-    if (index > -1) {
-        user.following.splice(index, 1);
-        await user.save();
-        return true; 
-    }
-    return false
+    const user = await User.findOne({ email: email })
+    const unfollowUser = await User.findOne({ email: unfollowEmail })
+    
+    const followingIndex = user.following.indexOf(unfollowUser._id)
+    user.following.splice(followingIndex, 1);
+
+    const followerIndex = unfollowUser.following.indexOf(user._id)
+    unfollowUser.followers.splice(followerIndex, 1)
+
+    await user.save();
+    await unfollowUser.save();
+    return true
 }
 
 async function followEmail(email, followEmail){
     const user = await User.findOne({ email: email })
     const follow = await User.findOne({email: followEmail})
     user.following.push(follow._id)
-    user.save()
+    follow.followers.push(user._id)
+    await user.save()
+    await follow.save()
     return true
 }
 
