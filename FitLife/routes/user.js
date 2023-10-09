@@ -106,4 +106,9 @@ router.get('/follow/:email',  async (req, res) => {
     res.redirect("/me/followings?message=added")
 });
 
+router.get('/profile', async (req, res) => {
+    const email = req.session.email
+    const user = await userController.getUser()
+});
+
 module.exports = router;
