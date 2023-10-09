@@ -5,7 +5,7 @@ async function createUser(fname, lname, email, password, date_of_birth, type) {
     if (existingUser) {
         return false;
     }
-    
+
     const user = new User({
         fname: fname,
         lname: lname,
@@ -95,4 +95,22 @@ async function searchUser(text){
     return users
 }
 
-module.exports = { createUser, fetchUser, updateUser, deleteUser, listFollowing, listFollowers, unfollowEmail, followEmail, searchUser}
+async function addPostToUser(postId, email){
+    const user = await User.findOne({email: email })
+    user.posts.push(postId)
+    await user.save()
+    return user;
+}
+
+module.exports = { 
+    createUser,
+    fetchUser, 
+    updateUser, 
+    deleteUser, 
+    listFollowing, 
+    listFollowers, 
+    unfollowEmail, 
+    followEmail, 
+    searchUser,
+    addPostToUser
+}

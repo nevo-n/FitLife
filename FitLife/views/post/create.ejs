@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <% if(data.message == 'created') { %>
+        <div class="alert alert-success" role="alert">
+            <span>Post has been created, wanna create another one?</span>
+        </div>
+    <% } %>
+  
+  <h3>Create a new post</h3>
+  <form action="/post/create" method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea class="form-control" id="content" rows="3" name="content"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Create post</button>
+  </form>
+</div>

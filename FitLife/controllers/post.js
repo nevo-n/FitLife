@@ -23,9 +23,9 @@ async function getPostsByListOfEmails(emailsList, date){
 }
 
 // TODO: implement this (postDetails include info about the creator and context - maybe in group)
-async function createPost(postDetails){
-    // make sure that you add the post ID to both user and group if needed
-    return
+async function createPost(postDetails, groupId = null){
+    const newPost = await postService.createPost(postDetails, groupId)
+    return newPost;
 }
 
 // TODO: implement this (postDetails include info about the creator and context - maybe in group)
@@ -35,14 +35,15 @@ async function deletePost(postDetails){
 }
 
 // TODO: implement this (postDetails include info about the creator and context - maybe in group)
-async function editPost(email, postDetails){
-    // edit post details here 
-    return
+async function editPost(postDetails){
+    const newPost = await postService.editPost(postDetails)
+    return newPost
 }
 
 // TODO: implement this
 async function getPost(postId){
-    return
+    const post = await postService.getPost(postId)
+    return post
 }
 
 module.exports = {getPostsByEmail, getPostsByGroup, getPostsByListOfEmails, createPost, deletePost, editPost, getPost}

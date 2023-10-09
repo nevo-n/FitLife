@@ -1,23 +1,21 @@
-<div class="mb-4">
-  <div class="justify-content-between align-items-start">
-    <div aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="/me/settings">
-            <i class="bi bi-gear"></i>
+<div class="d-flex align-items-center mb-4">
+  <ol class="breadcrumb mb-0 col-10">
+      <li class="breadcrumb-item">
+          <a href="/me/settings" class="text-danger">
+              <i class="bi bi-gear"></i>
           </a>
-        </li>
-        <li class="breadcrumb-item"><%= user.email %></li>
-        <li class="breadcrumb-item text-muted"><%= user.type %></li>
-        <li class="breadcrumb-item text-muted">
-          <a href="/me/followings">
-            Follow: <%= user.following.length %>
-          </a>
-        </li>
-        <li class="breadcrumb-item text-muted">
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/me/profile" class="text-success"> <%= user.email %> </a></li>
+      <li class="breadcrumb-item text-muted"><%= user.type %></li>
+      <li class="breadcrumb-item">
+          <a href="/me/followings"> Follow: <%= user.following.length %> </a>
+      </li>
+      <li class="breadcrumb-item">
           <a href="/me/followers"> Followers: <%= user.followers.length %> </a>
-        </li>
-      </ol>
-    </div>
+      </li>
+  </ol>
+  <div class="col-2">
+    <a class="btn btn-primary" role="button" href="/post/create">Create Post</a>
   </div>
 </div>
