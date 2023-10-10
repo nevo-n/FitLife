@@ -13,9 +13,41 @@ data.followingPosts.forEach((post) => { %>
     <div class="row ml-2 mr-2 justify-content-between">
       <div class="align-items-start">
         <% if(post.author.email == data.user.email) {%>
-        <a href="/post/edit/<%= post._id %>" class="text-muted">
-          <i class="bi bi-pencil-square"></i>
-        </a>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editPost<%=post._id%>">
+            <i class="bi bi-pencil-square text-muted"></i>
+        </button>
+
+        <div class="modal fade" id="editPost<%=post._id%>" tabindex="-1" role="dialog" aria-labelledby="#editPost<%=post._id%>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPost<%=post._id%>Title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>Edit post</h3>
+                    <form action="/post/edit" method="post">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required value="<%= post.title %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea class="form-control" id="content" rows="3" name="content"><%= post.content %></textarea>
+                    </div>
+                    <input type="text" id="_id" name="_id" value="<%= post._id %>" hidden>
+                    <button type="submit" class="btn btn-primary">Edit post</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
         <%}%>
         <small class="text-muted ml-2">
           <i class="fa fa-heart"></i> <%= post.likes.length %> Likes

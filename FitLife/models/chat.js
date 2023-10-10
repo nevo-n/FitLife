@@ -8,7 +8,7 @@ const messageSchema = new Schema({
     },
     sent_by: {
         type: Schema.Types.ObjectId,
-        //ref: 'User',  // will be user id ref
+        ref: 'User',
     },
     content: {
         type: String,
@@ -28,7 +28,7 @@ const chatSchema = new Schema({
     },
     group_id: {
         type: Schema.Types.ObjectId,
-        //ref: 'Group',  // will be user id ref
+        ref: 'Group',
     },
     messages: [messageSchema]
 });

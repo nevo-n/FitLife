@@ -4,7 +4,6 @@ const UserService = require("../services/user")
 const GroupService = require("../services/group")
 
 async function fetchUserFeedPosts(user) {
-    // TODO: add email to each comment 
     const lastDayDate = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24 hours
     const userGroups = await Group.find({ friends: user._id });
     const groupPostIds = userGroups.reduce((acc, group) => acc.concat(group.posts), []);
