@@ -57,13 +57,22 @@ async function getGroup(groupId, userId){
     })
 
     return group
-
 }
+
+async function editGroup(groupDetails){
+    const group = await Group.findOne({ _id: groupDetails.groupId })
+    group.name = groupDetails.name
+    group.description = groupDetails.description
+    group.tags = groupDetails.tags
+    return await group.save()
+}
+
 module.exports = {
     searchGroup, 
     addPost,
     createGroup,
-    getGroup
+    getGroup,
+    editGroup
 }
 
 //http://localhost:8800/group/show/65251c03626739fda083afc7

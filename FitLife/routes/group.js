@@ -58,7 +58,19 @@ router.post('/post/create', async (req, res) => {
 })
 
 
-
+router.post('/edit', async (req, res) => {
+    const tags = req.body.tags.split("#")
+                 .map(tag => tag.trim())
+                 .filter(tag => tag !== '');
+    const groupDetails = {
+        groupId: req.body.groupId,
+        name: req.body.name,
+        description: req.body.description,
+        tags: tags
+    }
+    const newGroup = await groupController.editGroup(groupDetails)
+    res.redirect(`/group/show/${newGroup._id}?message=edited`)
+})
 
 
 module.exports = router;

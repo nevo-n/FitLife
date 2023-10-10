@@ -10,7 +10,8 @@ async function createGroup(email, groupDetails){
 
 // TODO: implement this
 async function editGroup(groupDetails){
-    return {}
+    const group = await GroupService.editGroup(groupDetails)
+    return group
 }
 
 // TODO: implement this
