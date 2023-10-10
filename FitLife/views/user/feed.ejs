@@ -22,9 +22,17 @@ data.followingPosts.forEach((post) => { %>
         </small>
       </div>
       <div class="m-2 align-items-end">
-        <a href="#" class="btn btn-primary">
-          <i class="fas fa-thumbs-up"></i>
+        <% if(post.liked){%>
+            <a href="/post/removeLike/<%=post._id%>" class="btn btn-danger">
+          <i class="fas fa-thumbs-down"></i>
         </a>
+
+        <%} else {%>
+            <a href="/post/addLike/<%=post._id%>" class="btn btn-primary">
+            <i class="fas fa-thumbs-up"></i>
+            </a>
+        <%}%>
+        
       </div>
     </div>
     <div class="comments">
@@ -34,12 +42,12 @@ data.followingPosts.forEach((post) => { %>
       </div>
       <% } %>
       <div class="mt-2">
-        <form action="/submit-comment" method="POST">
+        <form action="/post/addComment/<%= post._id%>" method="POST">
           <div class="form-group">
             <textarea
               class="form-control"
               id="commentContent"
-              name="content"
+              name="comment"
               rows="2"
               required
             ></textarea>
@@ -47,12 +55,20 @@ data.followingPosts.forEach((post) => { %>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
-      <% post.comments.forEach((comment) => { %>
-      <div class="comment mb-3">
-        <strong><%= comment.email %></strong>:
-        <span><%= comment.content %></span>
-      </div>
-      <% }); %>
+      <% if(post.comments.length > 0) {%>
+        <div class="alert alert-secondary mt-3">
+            <h4>Comments</h4>
+            <% post.comments.forEach((comment) => { %>
+                <hr>
+                <p>
+                    <strong class="text-muted"><%= comment.user_id.email %></strong>:
+                    <span><%= comment.content %></span>
+                </p>
+        
+           <% }); %>
+        </div>
+      <%} %>
+      
     </div>
   </div>
 </div>

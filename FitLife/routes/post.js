@@ -59,4 +59,24 @@ router.post('/edit', async (req, res) => {
     res.redirect(`/post/edit/${newPost._id}?message=edited`)
 })
 
+router.get('/addLike/:postId', async (req, res) => {
+    const email = req.session.email
+    const newPost = postController.addLike(req.params.postId, email)
+    res.redirect('/me/feed')
+})
+
+router.get('/removeLike/:postId', async (req, res) => {
+    const email = req.session.email
+    const newPost = postController.removeLike(req.params.postId, email)
+    res.redirect('/me/feed')
+})
+
+router.post('/addComment/:postId', async (req, res) => {
+    const email = req.session.email
+    const comment = req.body.comment
+    const newPost = postController.addComment(req.params.postId, email, comment)
+    res.redirect('/me/feed')
+})
+
+
 module.exports = router

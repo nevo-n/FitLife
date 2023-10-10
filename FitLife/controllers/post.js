@@ -46,7 +46,33 @@ async function getPost(postId){
     return post
 }
 
-module.exports = {getPostsByEmail, getPostsByGroup, getPostsByListOfEmails, createPost, deletePost, editPost, getPost}
+async function addLike(postId, email){
+    const post = await postService.addLike(postId, email)
+    return post
+}
+
+async function removeLike(postId, email){
+    const post = await postService.removeLike(postId, email)
+    return post
+}
+
+async function addComment(postId, email, comment){
+    const post = await postService.addComment(postId, email, comment)
+    return post
+}
+
+module.exports = {
+    getPostsByEmail, 
+    getPostsByGroup, 
+    getPostsByListOfEmails, 
+    createPost, 
+    deletePost, 
+    editPost, 
+    getPost, 
+    addLike,
+    removeLike,
+    addComment
+}
 
 
 
