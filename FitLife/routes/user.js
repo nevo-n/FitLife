@@ -15,14 +15,14 @@ router.get('/settings', async (req, res) => {
     }
     
     const user = await userController.getUser(email)
-    const data = {
-        user: user,
-        message: message
-    }
+    const data = 
     res.render('layouts/main', {
         pageTitle: 'Settings',
         pageBody: '../user/settings', 
-        data: data,
+        data: {
+            user: user,
+            message: message
+        },
     });
 });
 
@@ -45,13 +45,15 @@ router.post('/settings', async (req, res) => {
 
 router.get('/feed',  async (req, res) => {
     const email = req.session.email
-    console.log(`creating feed for email: ${email}`)
-    const data = await userController.feed(email)
-    console.log(data)
+    const feed = await userController.feed(email)
+    const user = await userController.getUser(req.session.email)
     res.render('layouts/main', {
         pageTitle: 'Feed',
         pageBody: '../user/feed',
-        data: data
+        data: {
+            feed: feed,
+            user: user
+        }
     });
 });
 
@@ -62,16 +64,17 @@ router.get('/followings',  async (req, res) => {
         message = req.query.message
     }
     const followings = await userController.followings(email)
-    const data = {
-        users: followings,
-        followers: false,
-        following: true,
-        message: message
-    };
+    const user = await userController.getUser(req.session.email)
     res.render('layouts/main', {
         pageTitle: 'following',
         pageBody: '../user/friends', 
-        data: data
+        data: {
+            users: followings,
+            followers: false,
+            following: true,
+            message: message,
+            user: user
+        }
     });
 });
 
@@ -79,16 +82,16 @@ router.get('/followers',  async (req, res) => {
     const email = req.session.email
     console.log(`list followers for email: ${email}`)
     const followers = await userController.followers(email)
-    const data = {
-        users: followers,
-        followers: true,
-        following: false
-    };
-    console.log(data)
+    const user = await userController.getUser(req.session.email)
     res.render('layouts/main', {
         pageTitle: 'Feed',
         pageBody: '../user/friends', 
-        data: data
+        data: {
+            users: followers,
+            followers: true,
+            following: false,
+            user: user
+        }
     });
 });
 

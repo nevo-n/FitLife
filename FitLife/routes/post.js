@@ -1,18 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const postController  = require("../controllers/post");
+const userController = require("../controllers/user")
 
-router.get('/create', (req, res) => {
+router.get('/create', async (req, res) => {
+    const user = await userController.getUser(req.session.email)
     res.render('layouts/main', {
         pageTitle: 'Create Post',
         pageBody: '../post/create',
         data: {
-            message: null
+            message: null,
+            user: user
         }
     })
 })
 
 router.post('/create', async (req, res) => {
+    const user = await userController.getUser(req.session.email)
     const email = req.session.email
     const post = {
         title: req.body.title,
@@ -25,12 +29,14 @@ router.post('/create', async (req, res) => {
         pageTitle: 'Create Post',
         pageBody: '../post/create', 
         data: {
-            message: 'created'
+            message: 'created',
+            user: user
         },
     });
 })
 
 router.get('/edit/:postId', async(req, res) => {
+    const user = await userController.getUser(req.session.email)
     const post = await postController.getPost(req.params.postId)
     let message = null
     if (typeof req.query.message !== 'undefined' && req.query.message !== null){
@@ -41,7 +47,8 @@ router.get('/edit/:postId', async(req, res) => {
         pageBody: `../post/edit/`,
         data: {
             post: post,
-            message: message
+            message: message,
+            user: user
         }
     })
 })

@@ -21,7 +21,10 @@ async function createUser(fname, lname, email, password, date_of_birth, type) {
 }
 
 async function fetchUser(email) {
-    const user = await User.findOne({ email: email })
+    const user = await User.findOne({ email: email }).populate({
+        path: 'groups',
+        model: 'Group'
+    })
     return user
 }
 

@@ -13,6 +13,7 @@
     <link href="/main.css" rel="stylesheet">
 </head>
 <body>
+    
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-md-block bg-dark sidebar full-height fixed-sidebar">
@@ -30,18 +31,11 @@
                         </a>
                         <div class="collapse" id="submenu">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link ml-3 text-secondary" href="#">Group 1</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link ml-3 text-secondary" href="#">Group 2</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link ml-3 text-secondary" href="#">Group 3</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link ml-3 text-secondary" href="#">Group 4</a>
-                                </li>
+                                <% data.user.groups.forEach(group => { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link ml-3 text-secondary" href="/group/show/<%=group._id%>"><%=group.name%></a>
+                                    </li>
+                                <% }) %> 
                             </ul>
                         </div>
                     </li>

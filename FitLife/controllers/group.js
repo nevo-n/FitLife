@@ -3,8 +3,8 @@ const GroupService = require("../services/group")
 const PostService = require("../services/post")
 
 // TODO: implement this
-async function createGroup(groupDetails){
-    const newGroup = await GroupService.createGroup(groupDetails)
+async function createGroup(email, groupDetails){
+    const newGroup = await GroupService.createGroup(email, groupDetails)
     return newGroup
 }
 

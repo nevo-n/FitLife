@@ -12,7 +12,7 @@ async function addPost(groupId, postId){
     return group
 }
 
-async function createGroup(groupDetails){
+async function createGroup(email, groupDetails){
     const user = await UserService.fetchUser(email)
     const group = new Group({
         creator: user._id,
@@ -23,6 +23,8 @@ async function createGroup(groupDetails){
         posts : []
     })
     let newGroup = await group.save()
+    user.groups.push(newGroup._id)
+    await user.save()
     return newGroup
 }
 

@@ -4,22 +4,14 @@ const groupController = require('../controllers/group');
 const userController = require('../controllers/user')
 
 
-router.get('/:groupId/feed', (req, res) => {
-    const groupId = req.params.groupId;
-    res.send('group ' + groupId + ' feed');
-})
-
-router.get('/group/:groupId/profile', (req, res) => {
-    const groupId = req.params.groupId;
-    res.send('group ' + groupId + ' profile');
-})
-
-router.get('/create', (req, res) => {
+router.get('/create', async (req, res) => {
+    const user = await userController.getUser(req.session.email)
     res.render('layouts/main', {
         pageTitle: 'Create Post',
         pageBody: '../group/create', 
         data: {
-            message: 'created'
+            message: 'created',
+            user: user
         },
     });
 })

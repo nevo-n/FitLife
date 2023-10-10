@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const searchController = require("../controllers/search")
+const userController = require("../controllers/user")
 
-router.get('/search', async (req, res) => {    
-    const data = {}
+router.get('/search', async (req, res) => {  
+    const user = await userController.getUser(req.session.email)
+  
+    const data = {
+        user: user
+    }
     res.render('layouts/main', {
         pageTitle: 'Search',
         pageBody: '../search/search', 
@@ -12,6 +17,7 @@ router.get('/search', async (req, res) => {
 });
 
 router.post('/search/', async (req, res) => {    
+    const user = await userController.getUser(req.session.email)
     const type = req.body.type
     const text = req.body.text
     let results = null 
@@ -24,7 +30,8 @@ router.post('/search/', async (req, res) => {
     data = {
         type: type,
         text: text,
-        results: results
+        results: results,
+        user: user
     }
 
     res.render('layouts/main', {
