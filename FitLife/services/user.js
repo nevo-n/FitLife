@@ -56,7 +56,6 @@ async function listFollowing(email){
 }
 
 async function listFollowers(email){
-    console.log(`listFollwings email: ${email}`)
     const user = await User.findOne({ email: email });
     const followersUsers = await User.find({ _id: { $in: user.followers } });
     return followersUsers;
