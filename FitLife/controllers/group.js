@@ -2,41 +2,14 @@ const UserService = require("../services/user")
 const GroupService = require("../services/group")
 const PostService = require("../services/post")
 
-// TODO: implement this
 async function createGroup(email, groupDetails){
     const newGroup = await GroupService.createGroup(email, groupDetails)
     return newGroup
 }
 
-// TODO: implement this
 async function editGroup(groupDetails){
     const group = await GroupService.editGroup(groupDetails)
     return group
-}
-
-// TODO: implement this
-async function deleteGroup(groupDetails){
-    return true
-}
-
-// TODO: implement this
-async function listGroups(groupDetails){
-    return []
-}
-
-// TODO: implement this
-async function getGroupMembers(groupDetails){
-    return []
-}
-
-// TODO: implement this
-async function getGroupOwner(groupDetails){
-    return {}
-}
-
-// TODO: implement this
-async function listGroupByOwnerEmail(groupDetails){
-
 }
 
 async function getGroup(groupId, userId){
@@ -49,16 +22,23 @@ async function createPost(postDetails, groupId){
     return post
 }
 
+async function joinGroup(groupId, email){
+    const group = await GroupService.joinGroup(groupId, email)
+    return group
+}
+
+async function leaveGroup(groupId, email){
+    const group = await GroupService.leaveGroup(groupId, email)
+    return group
+}
+
 module.exports = {
     createGroup, 
     editGroup, 
-    deleteGroup, 
-    listGroups, 
-    getGroupMembers, 
-    getGroupOwner, 
-    listGroupByOwnerEmail,
     getGroup,
-    createPost
+    createPost,
+    joinGroup,
+    leaveGroup
 }
 
 

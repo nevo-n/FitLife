@@ -33,13 +33,16 @@ router.post('/create', async (req, res) => {
 router.get('/show/:groupId', async (req, res) => {
     const user = await userController.getUser(req.session.email)
     const group = await groupController.getGroup(req.params.groupId, user._id)
-    
+    let message = ''
+    if(typeof req.query.message !== 'undefined'){
+        message = req.query.message
+    }
     res.render('layouts/main', {
         pageTitle: 'Create Post',
         pageBody: '../group/show', 
         data: {
             group: group,
-            message: 'created',
+            message: message,
             user: user
         },
     });
@@ -70,6 +73,20 @@ router.post('/edit', async (req, res) => {
     }
     const newGroup = await groupController.editGroup(groupDetails)
     res.redirect(`/group/show/${newGroup._id}?message=edited`)
+})
+
+router.get('/join/:groupId', async (req, res) => {
+    const email = req.session.email
+    const groupId = req.params.groupId
+    const group = await groupController.joinGroup(groupId, email)
+    res.redirect(`/group/show/${group._id}?message=joined`)
+})
+
+router.get('/leave/:groupId', async (req, res) => {
+    const email = req.session.email
+    const groupId = req.params.groupId
+    const group = await groupController.leaveGroup(groupId, email)
+    res.redirect(`/me/feed?message=leftGroup`)
 })
 
 

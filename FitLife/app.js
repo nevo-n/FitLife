@@ -41,5 +41,8 @@ app.use('/chat',loginController.isLoggedIn, chatRoutes)
 app.use('/search', loginController.isLoggedIn, searchRoutes)
 app.use('/post', loginController.isLoggedIn, postRoutes)
 app.use('/login', loginRoutes);
+app.use('*', (req, res) => {
+  res.redirect('/me/feed');
+});
 
 app.listen(8800)

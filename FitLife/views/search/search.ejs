@@ -27,8 +27,6 @@
 <% if(typeof data.type !== 'undefined' && data.type == "user" && typeof data.results !== 'undefined'){ %>
     <% data.results.forEach((user) => { %>
         <div class="mb-4">
-   
-
             <div class="justify-content-between align-items-start">
               <div aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -49,6 +47,42 @@
                     <% }
                     else { %>
                         <a href="/me/follow/<%=user.email%>" class="text-success">follow</a> 
+                    <% } %>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+      <% }); %>
+
+<% } %>
+
+<%=JSON.stringify(data.results)%>
+<% if(typeof data.type !== 'undefined' && data.type == "group" && typeof data.results !== 'undefined'){ %>
+    <% data.results.forEach((group) => { %>
+        <div class="mb-4">
+            <div class="justify-content-between align-items-start">
+              <div aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><%= group.name %></li>
+                  <li class="breadcrumb-item text-muted"><%= group.description.slice(0,30) %></li>
+                  <li class="breadcrumb-item text-muted">
+                    <% group.tags.forEach((tag) => { %>
+                                <span class="text-danger">#<%=tag%>&MediumSpace;</span>
+                          <% }) %>
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    Number of posts: <%= group.posts.length %> 
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    <% if (group.IOwn){ %>
+                        <a href="/group/show/<%=group._id%>" class="text-secondary">You own it, show group</a> 
+                    <% }
+                    else if(group.IFollow){ %>
+                        <a href="/group/leave/<%=group._id%>" class="text-danger">Leave group</a> 
+                    <% }
+                    else { %>
+                        <a href="/group/join/<%=group._id%>" class="text-success">Join group</a> 
                     <% } %>
                   </li>
                 </ol>

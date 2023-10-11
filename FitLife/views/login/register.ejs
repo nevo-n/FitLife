@@ -11,13 +11,13 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h3>Register</h3>
-            <% if (typeof query.error !== 'undefined' && query.error == '2') { %>
-                <div class="alert alert-danger" role="alert">
-                    <span>Email already exists</span>
+            <% if (typeof data.message !== 'undefined' && data.message == 'emailExists'){ %>
+                <div class="alert alert-danger">
+                    <strong>ERROR: </strong> Email already exists
                 </div>
-            <% } %>
+            <% }%>
 
+            <h3>Register</h3>
             <form action="/login/register" method="post">
                 <div class="form-group">
                     <label for="fname">First Name</label>

@@ -6,11 +6,11 @@ async function searchUser(text, email) {
     return users
 }
 
-async function searchGroup(text) { 
-    const groups = await GroupService.searchGroup(text)
+async function searchGroups(text, email) { 
+    const groups = await SearchService.searchGroups(text, email)
     return groups
 }
 
 
 
-module.exports = {searchUser, searchGroup}
+module.exports = {searchUser, searchGroups}

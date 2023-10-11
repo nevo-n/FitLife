@@ -1,3 +1,19 @@
+<% if (typeof data.message !== 'undefined' && data.message !== null && data.message !== '') {
+    let alertClass = 'alert alert-muted'
+    let alertText = 'default text'
+    if(data.message == 'joined'){
+        alertClass = 'alert alert-success'
+        alertText = 'You just joined the group! Have fun in your new community'
+    }
+    else if(data.message == 'created'){
+        alertClass = 'alert alert-success'
+        alertText = 'The group has been created, what about creating some posts here?'
+    }%>
+    <div class="<%=alertClass%>">
+       <span> <%= alertText %> </span>
+    </div>
+<%}%>
+
 <div class="alert alert-primary">
     <h3>
         <%= data.group.name %>
@@ -17,13 +33,17 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPostModel">
         Create post
     </button>
+    <% if(String(data.group.creator._id) == String(data.user._id)) {%>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editGroupModel">
         Edit group
     </button>
+    <%}%>
     <%- include('../group/showFriends', { data: data }) %>
     <%- include('../group/createPost', { data: data }) %>
     <%- include('../group/edit', { data: data }) %>
 </div>
+
+
 
 <% data.group.posts.forEach((post) => { %>
     <!-- <%= JSON.stringify(post) %> -->

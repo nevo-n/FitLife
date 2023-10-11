@@ -25,7 +25,7 @@ router.post('/search/', async (req, res) => {
         results = await searchController.searchUser(text, req.session.email)
     }
     else if(type == "group"){
-        results = await searchController.searchGroup(text)
+        results = await searchController.searchGroups(text, req.session.email)
     }
     data = {
         type: type,

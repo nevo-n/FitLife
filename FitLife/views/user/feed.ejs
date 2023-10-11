@@ -1,6 +1,20 @@
-<%- include('profileWindow', {user: data.user}) %> <%
-data.feed.followingPosts.forEach((post) => { %>
-<!-- <%= JSON.stringify(post) %> -->
+<%- include('profileWindow', {user: data.user}) %>
+
+<% if (typeof data.message !== 'undefined' && data.message !== null && data.message !== '') {
+    let alertClass = 'alert alert-muted'
+    let alertText = 'default text'
+    if(data.message == 'leftGroup'){
+        alertClass = 'alert alert-danger'
+        alertText = 'You just left the group!'
+    }%>
+    <div class="<%=alertClass%>">
+       <span> <%= alertText %> </span>
+    </div>
+<%}%>
+
+<% data.feed.followingPosts.forEach((post) => { %>
+
+
 <div class="card mb-4">
   <div class="card-header">
     <h3><%= post.title %></h3>

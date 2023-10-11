@@ -1,8 +1,14 @@
 const Group = require("../models/group")
 const UserService = require("../services/user")
 
-async function searchGroup(text){
-    return null
+async function searchGroups(text){
+    const regex = new RegExp(text, 'i')
+    const groups = await Group.find({$or: [
+        {name: regex},
+        {title: regex},
+        {tags: regex},
+    ]});
+    return groups
 }
 
 async function addPost(groupId, postId){
@@ -67,12 +73,42 @@ async function editGroup(groupDetails){
     return await group.save()
 }
 
+async function joinGroup(groupId, email){
+    const group = await Group.findOne({ _id: groupId })
+    const user = await UserService.fetchUser(email)
+    if(!group.friends.some(id => id.equals(user._id))){
+        group.friends.push(user._id)
+        await group.save()
+    }
+    if(!user.groups.some(id => id.equals(groupId))){
+        user.groups.push(groupId)
+        await user.save()
+    }
+    return group
+}
+
+async function leaveGroup(groupId, email){
+    const group = await Group.findOne({ _id: groupId })
+    const user = await UserService.fetchUser(email)
+    if(group.friends.some(id => id.equals(user._id))){
+        const index = group.friends.indexOf(user._id)
+        group.friends.splice(index, 1)
+        await group.save()
+    }
+    if(user.groups.some(id => id.equals(groupId))){
+        const index = user.groups.indexOf(groupId)
+        user.groups.splice(index, 1)
+        await user.save()
+    }
+    return group
+}
+
 module.exports = {
-    searchGroup, 
+    searchGroups, 
     addPost,
     createGroup,
     getGroup,
-    editGroup
+    editGroup,
+    joinGroup,
+    leaveGroup
 }
-
-//http://localhost:8800/group/show/65251c03626739fda083afc7

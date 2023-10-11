@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const userController  = require("../controllers/user");
 
-router.get('/', (req, res) => {
-    console.log("Defualt me")
-    res.redirect('/me/feed')
-});
 
 router.get('/settings', async (req, res) => {
     const email = req.session.email
@@ -47,12 +43,17 @@ router.get('/feed',  async (req, res) => {
     const email = req.session.email
     const feed = await userController.feed(email)
     const user = await userController.getUser(req.session.email)
+    let message = ''
+    if(typeof req.query.message !== 'undefined'){
+        message = req.query.message
+    }
     res.render('layouts/main', {
         pageTitle: 'Feed',
         pageBody: '../user/feed',
         data: {
             feed: feed,
-            user: user
+            user: user,
+            message: message
         }
     });
 });
