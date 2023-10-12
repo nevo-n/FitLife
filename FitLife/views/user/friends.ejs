@@ -13,7 +13,8 @@ else if(data.message == "removed") {%>
 <% if(data.users.length == 0) { %>
     <div class="jumbotron">
         <h2 class="text-muted">
-        <% if(data.following) { %>
+        <% if(data.following) { %> 
+          
             You still don't follow anyone, it is boring..
         <% } else if(data.followers) { %>
             You still don't have followers

@@ -8,7 +8,6 @@ async function feed(email) {
         user: user,
         followingPosts: followingPosts
     }
-    // console.log(data)
     return data
 }
 
@@ -42,4 +41,18 @@ async function updateUser(user){
     return new_user
 }
 
-module.exports = {feed, followings, followers, unfollow, follow, getUser, updateUser}
+async function userFeed(email){
+    const userPosts = await PostService.fetchPostsByEmail(email, 356, true)
+    return userPosts; 
+}
+
+module.exports = {
+    feed, 
+    followings, 
+    followers, 
+    unfollow, 
+    follow, 
+    getUser, 
+    updateUser,
+    userFeed
+}

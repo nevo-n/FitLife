@@ -6,7 +6,6 @@ async function loginUser(email, password) {
 }
 
 async function registerUser(fname, lname, email, password, date_of_birth, type) {
-    console.log(`loginUser email: ${email} password: ${password}`)
 
     const user = new User({
         fname: fname,

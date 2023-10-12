@@ -1,11 +1,14 @@
 const postService = require("../services/post")
 const UserService = require("../services/user")
 
-// TODO: implement this
-async function getPostsByEmail(email, data){
-    // should return all posts by email from 'date' till today
-    // if data = null or undefined then return all posts from that email
-    return []
+async function getPostsByEmail(email, days = 7){
+    const posts = await postService.fetchPostsByEmail(email, days)    
+    return posts
+}
+
+async function getComments(email, days = 7){
+    const posts = await postService.getComments(email, days)    
+    return posts
 }
 
 // TODO: implement this
@@ -71,7 +74,8 @@ module.exports = {
     getPost, 
     addLike,
     removeLike,
-    addComment
+    addComment,
+    getComments
 }
 
 

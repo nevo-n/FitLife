@@ -81,7 +81,6 @@ router.get('/followings',  async (req, res) => {
 
 router.get('/followers',  async (req, res) => {
     const email = req.session.email
-    console.log(`list followers for email: ${email}`)
     const followers = await userController.followers(email)
     const user = await userController.getUser(req.session.email)
     res.render('layouts/main', {
@@ -112,7 +111,16 @@ router.get('/follow/:email',  async (req, res) => {
 
 router.get('/profile', async (req, res) => {
     const email = req.session.email
-    const user = await userController.getUser()
+    const user = await userController.getUser(email)
+    const posts = await userController.userFeed(email)
+    res.render('layouts/main', {
+        pageTitle: 'Profile',
+        pageBody: '../user/profile', 
+        data: {
+            user: user,
+            posts: posts
+        }
+    });
 });
 
 module.exports = router;

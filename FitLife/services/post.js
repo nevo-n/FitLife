@@ -30,8 +30,62 @@ async function fetchUserFeedPosts(user) {
     return posts;
 }
 
-async function fetchPostsByEmail(email, date){
-    return []
+async function fetchPostsByEmail(email, days = 7, shouldPopulate = false){
+    const user = await UserService.fetchUser(email)
+    const dateSinceDays = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+
+    let posts = null
+    if (shouldPopulate){
+        posts = await Post.find({
+            author: user._id,    
+            created_on: { $gte: dateSinceDays }
+        })
+        .populate('author', 'email')
+        .populate('comments.user_id', 'email')
+        .sort({ created_on: -1 })
+        .exec();
+
+        posts.forEach((post) => {
+            if(post.likes.includes(user._id)){
+                post.liked = true
+            }
+            else {
+                post.liked = false
+            }
+        })
+    }
+    else {
+        posts = await Post.find({
+            author: user._id,    
+            created_on: { $gte: dateSinceDays }
+        })
+    }
+
+    return posts
+}
+
+async function getComments(email, days = 7){
+    const user = await UserService.fetchUser(email)
+    const dateSinceDays = new Date(Date.now() - days * 24 * 60 * 60 * 1000); 
+
+    const posts = await Post.find({
+        "comments.user_id": user._id,
+        "comments.created_on": { $gte: dateSinceDays }
+    }).exec();
+
+    let comments = {};
+
+    posts.forEach(post => {
+        post.comments.forEach(comment => {
+            if (comment.user_id.equals(user._id) && comment.created_on >= dateSinceDays) {
+                const dateStr = comment.created_on.toISOString().split('T')[0];                
+                comments[dateStr] = (comments[dateStr] || 0) + 1;
+            }
+        });
+    });
+
+
+    return comments;
 }
 
 async function createPost(postDetails, groupId){
@@ -104,5 +158,6 @@ module.exports = {
     getPost, 
     addLike, 
     removeLike,
-    addComment
+    addComment,
+    getComments
 }

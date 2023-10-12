@@ -15,7 +15,6 @@ router.get('/:chatId/messages', (req, res) => {
 
 router.get('/:chatId/create', (req, res) => {
     const chatId = req.params.chatId
-    console.log("creating chat with id: " + chatId)
     chatController.createMockChat(chatId)
     res.render('layouts/main', {
         pageTitle: 'Chat messages',

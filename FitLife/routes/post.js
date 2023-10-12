@@ -106,5 +106,14 @@ router.post('/addComment/:postId', async (req, res) => {
     }
 })
 
+router.get('/:email/list', async (req, res) => {
+    const posts = await postController.getPostsByEmail(req.params.email)
+    res.json(posts)
+})
+
+router.get('/:email/comments', async (req, res) => {
+    const comments = await postController.getComments(req.params.email)
+    res.json(comments)
+})
 
 module.exports = router
