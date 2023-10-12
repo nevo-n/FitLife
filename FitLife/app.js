@@ -36,6 +36,7 @@ const loginController = require("./controllers/login")
 
 
 app.use('/me', loginController.isLoggedIn , userRoutes)
+app.use('/user', loginController.isLoggedIn , userRoutes)
 app.use('/group',loginController.isLoggedIn,  groupRoutes)
 app.use('/chat',loginController.isLoggedIn, chatRoutes)
 app.use('/search', loginController.isLoggedIn, searchRoutes)

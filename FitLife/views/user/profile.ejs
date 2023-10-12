@@ -9,20 +9,23 @@
         Following: <%= data.user.following.length %> |
         Groups: <%= data.user.groups.length %></p>
     </div>
-    <div class="card-footer">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#postsChartModel">
-            Show posts chart
-        </button>
-        <%- include('../user/showPostsChart', { data: data }) %>
-        
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentChartModel">
-            Show comments chart
-        </button>
-        
-        <%- include('../user/showCommentsChart', { data: data }) %>
-    </div>
-  </div>
-
+    <% if (data.isMe)  {%>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#postsChartModel">
+                Show posts chart
+            </button>
+            <%- include('../user/showPostsChart', { data: data }) %>
+            
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentChartModel">
+                Show comments chart
+            </button>
+            
+            <%- include('../user/showCommentsChart', { data: data }) %>
+        </div>
+    <%}%>
+    
+</div>
+<hr>
 
   <%- include('../post/postFeedView', { data: data }) %>
   

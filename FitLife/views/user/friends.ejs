@@ -49,7 +49,7 @@ else { %>
             Followers: <%= friend.followers.length %> 
           </li>
           <li class="breadcrumb-item text-muted">
-            <a href="#" class="text-muted">watch posts</a> 
+            <a href="/user/profile/<%= friend.email%>" class="text-muted">watch posts</a> 
           </li>
           <% if (data.user.following.includes(friend._id)) {%>
             <li class="breadcrumb-item text-muted">

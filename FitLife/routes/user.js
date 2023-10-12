@@ -109,6 +109,21 @@ router.get('/follow/:email',  async (req, res) => {
     res.redirect("/me/followings?message=added")
 });
 
+router.get('/profile/:email', async (req, res) => {
+    const email = req.session.email
+    const user = await userController.getUser(req.params.email)
+    const posts = await userController.userFeed(req.params.email)
+    res.render('layouts/main', {
+        pageTitle: 'Profile',
+        pageBody: '../user/profile', 
+        data: {
+            user: user,
+            posts: posts,
+            isMe: false
+        }
+    });
+});
+
 router.get('/profile', async (req, res) => {
     const email = req.session.email
     const user = await userController.getUser(email)
@@ -118,9 +133,12 @@ router.get('/profile', async (req, res) => {
         pageBody: '../user/profile', 
         data: {
             user: user,
-            posts: posts
+            posts: posts,
+            isMe: true
         }
     });
 });
+
+
 
 module.exports = router;
