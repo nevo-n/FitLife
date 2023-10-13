@@ -1,13 +1,5 @@
-const User = require("../models/user")
-const Group = require("../models/group")
-const Post = require("../models/post")
-
 const LoginService = require("../services/login")
 const UserService = require("../services/user")
-
-
-
-
 
 function isLoggedIn(req, res, next) {
   if (req.session.email != null)
@@ -16,23 +8,29 @@ function isLoggedIn(req, res, next) {
     res.redirect('/login/login')
 }
 
+
 function loginForm(req, res) { 
   if (req.session.email != null){
     return res.redirect('/me/feed')
   }
-  else {
-    res.render("login/login", {}) 
+
+  else if(typeof req.query.error !== 'undefined' && req.query.error == 'notExists'){
+    return res.render("login/login", {
+      data: {
+        message: 'notExists'
+      }
+    }) 
   }
-}
-
-function registerForm(req, res) { 
-  res.render("login/register", {}) 
-}
-
-function logout(req, res) {
-  req.session.destroy(() => {
-    res.redirect('/login/login');
-  });
+  
+  else {
+    return res.render("login/login", {
+      data: {
+        message: ''
+      }
+    }) 
+  }
+  
+  
 }
 
 async function login(req, res) {
@@ -43,22 +41,49 @@ async function login(req, res) {
     res.redirect('/me/feed')
   }
   else
-    res.redirect('/login/login?error=1')
+    res.redirect('/login/login?error=notExists')
 }
+
+
+function registerForm(req, res) { 
+  if(typeof req.query.error !== 'undefined' && req.query.error == 'emailExists'){
+    return res.render("login/register", {
+      data: {
+        message: 'emailExists'
+      }
+    }) 
+  }
+  
+  else {
+    return res.render("login/register", {
+      data: {
+        message: ''
+      }
+    }) 
+  }
+
+}
+
 
 async function register(req, res) {
   const { email, password, fname, lname, date_of_birth, type } = req.body
   
   const user = await UserService.fetchUser(email)
   if (user != null){
-    return res.redirect('/login/login?error=2')
+    return res.redirect('/login/register?error=emailExists')
   }
 
-  await LoginService.registerUser(fname, lname, email, password, date_of_birth, type, 'active')
+  await LoginService.registerUser(fname, lname, email, password, date_of_birth, type, 'Active')
   
   req.session.email = email
   return res.redirect('/me/feed')
  
+}
+
+function logout(req, res) {
+  req.session.destroy(() => {
+    res.redirect('/login/login');
+  });
 }
 
 

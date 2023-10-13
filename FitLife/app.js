@@ -16,26 +16,34 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public'))); 
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use(session({
     secret: 'somekey', // should be get from env
     resave: false,
     saveUninitialized: true
-  }));
+  }))
 
-const userRoutes = require('./routes/user');
-const groupRoutes = require('./routes/group');
-const chatRoutes = require('./routes/chat');
+const userRoutes = require('./routes/user')
+const groupRoutes = require('./routes/group')
+const chatRoutes = require('./routes/chat')
 const loginRoutes = require('./routes/login')
+const searchRoutes = require('./routes/search')
+const postRoutes = require('./routes/post')
+
 
 const loginController = require("./controllers/login")
 
 
-app.use('/me', loginController.isLoggedIn , userRoutes);
-app.use('/group',loginController.isLoggedIn,  groupRoutes);
-app.use('/chat',loginController.isLoggedIn, chatRoutes);
-
+app.use('/me', loginController.isLoggedIn , userRoutes)
+app.use('/user', loginController.isLoggedIn , userRoutes)
+app.use('/group',loginController.isLoggedIn,  groupRoutes)
+app.use('/chat',loginController.isLoggedIn, chatRoutes)
+app.use('/search', loginController.isLoggedIn, searchRoutes)
+app.use('/post', loginController.isLoggedIn, postRoutes)
 app.use('/login', loginRoutes);
+app.use('*', (req, res) => {
+  res.redirect('/me/feed');
+});
 
 app.listen(8800)

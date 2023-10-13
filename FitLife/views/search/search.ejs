@@ -1,0 +1,95 @@
+<div class="alert alert-secondary p-3">
+<h2 class="text-muted">Search</h2>
+
+<form action="/search/search" method="POST">
+
+    <div class="row justify-content-between">
+        
+        <div class="col-7">
+            <input type="text" class="form-control" id="text" name="text" placeholder="What are you looing for">
+        </div>
+        <div class="col-3">
+            <select class="form-control" id="type" name="type">
+                <option value="user">User</option>
+                <option value="group">Group</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    
+    
+</form>
+
+</div>
+
+<% if(typeof data.type !== 'undefined' && data.type == "user" && typeof data.results !== 'undefined'){ %>
+    <% data.results.forEach((user) => { %>
+        <div class="mb-4">
+            <div class="justify-content-between align-items-start">
+              <div aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><%= user.email %></li>
+                  <li class="breadcrumb-item text-muted"><%= user.type %></li>
+                  <li class="breadcrumb-item text-muted">
+                    Follow: <%= user.following.length %>
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    Followers: <%= user.followers.length %> 
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    <a href="/user/profile/<%= user.email%>" class="text-muted">watch posts</a> 
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    <% if (user.IFollow){ %>
+                        <a href="/me/unfollow/<%=user.email%>" class="text-danger">unfollow</a> 
+                    <% }
+                    else { %>
+                        <a href="/me/follow/<%=user.email%>" class="text-success">follow</a> 
+                    <% } %>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+      <% }); %>
+
+<% } %>
+
+<%=JSON.stringify(data.results)%>
+<% if(typeof data.type !== 'undefined' && data.type == "group" && typeof data.results !== 'undefined'){ %>
+    <% data.results.forEach((group) => { %>
+        <div class="mb-4">
+            <div class="justify-content-between align-items-start">
+              <div aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><%= group.name %></li>
+                  <li class="breadcrumb-item text-muted"><%= group.description.slice(0,30) %></li>
+                  <li class="breadcrumb-item text-muted">
+                    <% group.tags.forEach((tag) => { %>
+                                <span class="text-danger">#<%=tag%>&MediumSpace;</span>
+                          <% }) %>
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    Number of posts: <%= group.posts.length %> 
+                  </li>
+                  <li class="breadcrumb-item text-muted">
+                    <% if (group.IOwn){ %>
+                        <a href="/group/show/<%=group._id%>" class="text-secondary">You own it, show group</a> 
+                    <% }
+                    else if(group.IFollow){ %>
+                        <a href="/group/leave/<%=group._id%>" class="text-danger">Leave group</a> 
+                    <% }
+                    else { %>
+                        <a href="/group/join/<%=group._id%>" class="text-success">Join group</a> 
+                    <% } %>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+      <% }); %>
+
+<% } %>
+

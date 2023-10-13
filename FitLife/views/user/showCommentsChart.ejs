@@ -1,0 +1,72 @@
+<script>
+
+function drawCommentChart(data) {
+    const commentSvg = d3.select("#commentChart");
+    const width =  parseInt(commentSvg.attr("width"));
+    const height =  parseInt(commentSvg.attr("height"));
+    const margin = {top: 20, right: 20, bottom: 40, left: 40};
+
+    const x = d3.scaleBand()
+        .rangeRound([margin.left, width - margin.right])
+        .padding(0.1)
+        .domain(data.map(d => d.date));
+
+    const y = d3.scaleLinear()
+        .rangeRound([height - margin.bottom, margin.top])
+        .domain([0, d3.max(data, d => d.count)]);
+
+    commentSvg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x));
+
+    commentSvg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y));
+
+    commentSvg.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", d => x(d.date))
+        .attr("y", d => y(d.count))
+        .attr("width", x.bandwidth())
+        .attr("height", d => y(0) - y(d.count))
+        .attr('fill', 'steelblue');
+}
+
+function startCommentsChart(){
+    d3.json(`/post/<%=data.user.email%>/comments`).then(commentCounts => {
+    
+    const data = Object.keys(commentCounts).map(date => {
+        return {
+            date: date,
+            count: commentCounts[date]
+        };
+    });
+
+    drawCommentChart(data);
+    });
+}
+startCommentsChart();
+
+
+</script>
+
+
+<div class="modal fade bd-example-modal-lg" id="commentChartModel" tabindex="-1" role="dialog" aria-labelledby="commentChartModel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentChartModelLabel">
+          You comments activity per day in the last 7 days
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <svg width="600" height="400" id="commentChart"></svg>
+      </div>
+    </div>
+  </div>
+</div>

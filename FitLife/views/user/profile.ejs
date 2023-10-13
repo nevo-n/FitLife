@@ -1,23 +1,36 @@
-<div class="mb-4">
-  <div class="justify-content-between align-items-start">
-    <div aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="/me/edit-account">
-            <i class="bi bi-gear"></i>
-          </a>
-        </li>
-        <li class="breadcrumb-item"><%= user.email %></li>
-        <li class="breadcrumb-item text-muted"><%= user.type %></li>
-        <li class="breadcrumb-item text-muted">
-          <a href="/me/followings">
-            Follow: <%= user.following.length %>
-          </a>
-        </li>
-        <li class="breadcrumb-item text-muted">
-          <a href="/me/followers"> Followers: <%= user.followers.length %> </a>
-        </li>
-      </ol>
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= data.user.fname %> <%= data.user.lname %></h5>
+      <p class="card-text text-secondary"></p>
+      <p class="card-text text-secondary">
+        <%= data.user.email %> |
+        Posts: <%= data.user.posts.length %> | 
+        Followers: <%= data.user.followers.length %> |
+        Following: <%= data.user.following.length %> |
+        Groups: <%= data.user.groups.length %></p>
     </div>
-  </div>
+    <% if (data.isMe)  {%>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#postsChartModel">
+                Show posts chart
+            </button>
+            <%- include('../user/showPostsChart', { data: data }) %>
+            
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentChartModel">
+                Show comments chart
+            </button>
+            
+            <%- include('../user/showCommentsChart', { data: data }) %>
+        </div>
+    <%}%>
+    
 </div>
+<hr>
+
+  <%- include('../post/postFeedView', { data: data }) %>
+  
+
+
+
+
+

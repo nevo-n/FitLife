@@ -8,7 +8,6 @@ async function feed(email) {
         user: user,
         followingPosts: followingPosts
     }
-    // console.log(data)
     return data
 }
 
@@ -22,4 +21,38 @@ async function followers(email){
     return users
 }
 
-module.exports = {feed, followings, followers}
+async function unfollow(email, unfollowEmail){
+    const unfollow = await UserService.unfollowEmail(email, unfollowEmail)
+    return unfollow
+}
+
+async function follow(email, followEmail){
+    const follow = await UserService.followEmail(email, followEmail)
+    return follow
+}
+
+async function getUser(email){
+    const user = await UserService.fetchUser(email)
+    return user
+}
+
+async function updateUser(user){
+    const new_user = await UserService.updateUser(user)
+    return new_user
+}
+
+async function userFeed(email){
+    const userPosts = await PostService.fetchPostsByEmail(email, 356, true)
+    return userPosts; 
+}
+
+module.exports = {
+    feed, 
+    followings, 
+    followers, 
+    unfollow, 
+    follow, 
+    getUser, 
+    updateUser,
+    userFeed
+}

@@ -1,4 +1,4 @@
-const Chat = require('../../models/chat');
+const Chat = require('../models/chat');
 const mongoose = require('mongoose');
 
 
@@ -10,8 +10,4 @@ exports.getMessages = (chatId) => {
     };
 };
 
-
-const User = require('../../models/user');
-const Group = require('../../models/group');
-const Post = require('../../models/post');
 

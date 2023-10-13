@@ -1,0 +1,22 @@
+<div class="d-flex align-items-center mb-4">
+  <ol class="breadcrumb mb-0 col-9">
+      <li class="breadcrumb-item">
+          <a href="/me/settings" class="text-danger">
+              <i class="bi bi-gear"></i>
+          </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/me/profile" class="text-success"> <%= user.email %> </a></li>
+      <li class="breadcrumb-item text-muted"><%= user.type %></li>
+      <li class="breadcrumb-item">
+          <a href="/me/followings"> Follow: <%= user.following.length %> </a>
+      </li>
+      <li class="breadcrumb-item">
+          <a href="/me/followers"> Followers: <%= user.followers.length %> </a>
+      </li>
+  </ol>
+  <div class="col-3">
+    <a class="btn btn-primary" role="button" href="/post/create">Create Post</a>
+    <a class="btn btn-success" role="button" href="/group/create">Create Group</a>
+  </div>
+</div>

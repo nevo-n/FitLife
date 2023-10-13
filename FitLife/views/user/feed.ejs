@@ -1,8 +1,20 @@
-<!-- feed.ejs -->
+<%- include('profileWindow', {user: data.user}) %>
 
-<!-- Include the profile at the top -->
-<%- include('profile', {user: data.user}) %> 
-<% data.followingPosts.forEach((post) => { %>
+<% if (typeof data.message !== 'undefined' && data.message !== null && data.message !== '') {
+    let alertClass = 'alert alert-muted'
+    let alertText = 'default text'
+    if(data.message == 'leftGroup'){
+        alertClass = 'alert alert-danger'
+        alertText = 'You just left the group!'
+    }%>
+    <div class="<%=alertClass%>">
+       <span> <%= alertText %> </span>
+    </div>
+<%}%>
+
+<% data.feed.followingPosts.forEach((post) => { %>
+
+
 <div class="card mb-4">
   <div class="card-header">
     <h3><%= post.title %></h3>
@@ -14,32 +26,74 @@
   <div class="card-footer">
     <div class="row ml-2 mr-2 justify-content-between">
       <div class="align-items-start">
-        <small class="text-muted">
-            <i class="fa fa-heart"></i> <%= post.likes.length %> Likes
-          </small>
+        <% if(post.author.email == data.user.email) {%>
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editPost<%=post._id%>">
+            <i class="bi bi-pencil-square text-muted"></i>
+        </button>
+
+        <div class="modal fade" id="editPost<%=post._id%>" tabindex="-1" role="dialog" aria-labelledby="#editPost<%=post._id%>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPost<%=post._id%>Title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>Edit post</h3>
+                    <form action="/post/edit" method="post">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required value="<%= post.title %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea class="form-control" id="content" rows="3" name="content"><%= post.content %></textarea>
+                    </div>
+                    <input type="text" id="_id" name="_id" value="<%= post._id %>" hidden>
+                    <button type="submit" class="btn btn-primary">Edit post</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <%}%>
+        <small class="text-muted ml-2">
+          <i class="fa fa-heart"></i> <%= post.likes.length %> Likes
+        </small>
       </div>
       <div class="m-2 align-items-end">
-        <a href="#" class="btn btn-primary">
+        <% if(post.liked){%>
+            <a href="/post/removeLike/<%=post._id%>" class="btn btn-danger">
+          <i class="fas fa-thumbs-down"></i>
+        </a>
+
+        <%} else {%>
+            <a href="/post/addLike/<%=post._id%>" class="btn btn-primary">
             <i class="fas fa-thumbs-up"></i>
-          </a>
+            </a>
+        <%}%>
+        
       </div>
     </div>
-    <!-- Comments section -->
     <div class="comments">
       <% if(post.comments.length == 0) { %>
       <div class="mt-1">
         <span class="text-muted">Be the first to comment</span>
       </div>
       <% } %>
-
       <div class="mt-2">
-        <form action="/submit-comment" method="POST">
+        <form action="/post/addComment/<%= post._id%>" method="POST">
           <div class="form-group">
-            
             <textarea
               class="form-control"
               id="commentContent"
-              name="content"
+              name="comment"
               rows="2"
               required
             ></textarea>
@@ -47,13 +101,20 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
-
-      <% post.comments.forEach((comment) => { %>
-      <div class="comment mb-3">
-        <strong><%= comment.email %></strong>:
-        <span><%= comment.content %></span>
-      </div>
-      <% }); %>
+      <% if(post.comments.length > 0) {%>
+        <div class="alert alert-secondary mt-3">
+            <h4>Comments</h4>
+            <% post.comments.forEach((comment) => { %>
+                <hr>
+                <p>
+                    <strong class="text-muted"><%= comment.user_id.email %></strong>:
+                    <span><%= comment.content %></span>
+                </p>
+        
+           <% }); %>
+        </div>
+      <%} %>
+      
     </div>
   </div>
 </div>

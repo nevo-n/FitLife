@@ -12,10 +12,15 @@
         <% } %>
 </head>
 
-<body>
+<body>   
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
+                <% if (typeof data.message !== 'undefined' && data.message == 'notExists'){ %>
+                    <div class="alert alert-danger">
+                        <strong>ERROR: </strong> Credentials are wrong
+                    </div>
+                <% }%>
                 <h2 class="mb-4">Login</h2>
                 <form action="/login/login" method="post">
                     <div class="form-group">
